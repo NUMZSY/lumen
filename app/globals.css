@@ -148,6 +148,17 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
 .lumen-topbar nav { height: 56px; }
 .lumen-topbar a, .lumen-topbar button { min-height: 36px; }
 .lumen-sidebar a { min-height: 36px !important; padding-block: .45rem !important; }
+.lumen-sidebar { width: 58px; }
+.lumen-sidebar > div { min-height: auto !important; padding: .5rem !important; border-radius: 18px !important; }
+.lumen-sidebar > div > div:first-child > p,
+.lumen-sidebar > div > div:nth-child(2) > p { display: none; }
+.lumen-sidebar > div > div:nth-child(2) { margin-top: .75rem !important; border-top: 0; padding-top: 0; }
+.lumen-sidebar nav { gap: .4rem !important; }
+.lumen-sidebar a { width: 40px; height: 40px; min-height: 40px !important; padding: 0 !important; border-radius: 14px !important; }
+.lumen-sidebar > div > div:last-child { width: 40px; height: 40px; margin-inline: auto; padding: 0; display: grid; place-items: center; overflow: hidden; border-radius: 14px; }
+.lumen-sidebar > div > div:last-child > div { justify-content: center; }
+.lumen-sidebar > div > div:last-child > div span:last-child,
+.lumen-sidebar > div > div:last-child > p { display: none; }
 .lumen-home { max-width: 1080px; margin-inline: auto; gap: 1.5rem !important; }
 .lumen-home-intro { min-height: 190px; }
 .lumen-home-intro h1 { font-size: clamp(2.8rem, 7vw, 4.8rem) !important; }
