@@ -231,7 +231,7 @@ export function LumenAppShell() {
   const gameDetail = routeGameSlug ? gameBySlug(routeGameSlug) : undefined
   const watchDetail = routeWatchSlug ? watchBySlug(routeWatchSlug) : undefined
   const appDetail = routeAppSlug ? appBySlug(routeAppSlug) : undefined
-  const style = settings.theme === 'dim' ? { backgroundColor: '#11141d' } : { backgroundColor: '#080a12' }
+  const style = settings.theme === 'dim' ? { backgroundColor: 'rgba(17,20,29,.24)' } : { backgroundColor: 'rgba(8,10,18,.16)' }
   const sectionTitle = pathname === '/' ? 'Home' : pathname.startsWith('/games') ? 'Games' : pathname.startsWith('/watch') ? 'Watch' : pathname.startsWith('/apps') ? 'Apps' : pathname.startsWith('/chat') ? 'Chat' : pathname.startsWith('/library') ? 'Library' : pathname.startsWith('/settings') ? 'Settings' : 'Explore'
 
   return <div data-reduced-motion={settings.reducedMotion || undefined} className="min-h-screen overflow-x-hidden text-white" style={style}>
