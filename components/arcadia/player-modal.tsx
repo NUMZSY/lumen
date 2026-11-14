@@ -12,6 +12,8 @@ const allowedGameOrigins = new Set([
   'https://betrayal.io',
   'https://basketbros.io',
   'https://garticphone.com',
+  'https://shellshock.io',
+  'https://skribbl.io',
   'https://littlealchemy.com',
   'https://www.crazygames.com',
   'https://hexgl.bkcore.com',

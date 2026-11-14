@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { Bookmark, Gamepad2, Home, MessageCircle, Settings2, Tv, Wrench } from 'lucide-react'
+import { Bookmark, Gamepad2, Home, MessageCircle, Search, Settings2, Tv, Wrench } from 'lucide-react'
 
 const primary = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/games', label: 'Games', icon: Gamepad2 },
+  { href: '/search', label: 'Search', icon: Search },
   { href: '/watch', label: 'Watch', icon: Tv },
   { href: '/apps', label: 'Apps', icon: Wrench },
   { href: '/chat', label: 'Chat', icon: MessageCircle },

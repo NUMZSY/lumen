@@ -112,3 +112,23 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
 }
+
+.lumen-player { max-height: 100dvh; }
+.lumen-player-stage { height: min(72dvh, 540px); min-height: 280px; }
+.lumen-player iframe { touch-action: manipulation; }
+.lumen-player header a,
+.lumen-player header button { min-width: 40px; min-height: 40px; }
+
+@media (max-width: 479px) {
+  .lumen-player { border-radius: 0; }
+  .lumen-player header { min-height: 60px; padding: .5rem; }
+  .lumen-player header > div:last-child { gap: .25rem; }
+  .lumen-player-stage { height: 70dvh; min-height: 240px; }
+  .lumen-player > div:last-child { min-height: 48px; padding: .35rem .65rem; }
+  .lumen-player > div:last-child a { min-height: 40px; }
+  .lumen-player > div:last-child span:last-child { display: none; }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .lumen-player-stage { height: 68dvh; min-height: 190px; }
+}
