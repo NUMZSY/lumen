@@ -81,15 +81,21 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background: #050706; color: #f4f7f5; background-image: radial-gradient(circle at 50% -30%, rgba(0,255,157,.055), transparent 38%), linear-gradient(180deg, #080a09 0%, #050706 55%, #040504 100%); }
+body { background-color: #06100a; color: #f4f7f5; background-image: linear-gradient(rgba(3,10,6,.62), rgba(3,10,6,.84)), url('/lumen-forest-bg.png'), radial-gradient(circle at 50% -30%, rgba(0,255,157,.08), transparent 38%), linear-gradient(180deg, #080a09 0%, #050706 55%, #040504 100%); background-size: cover, cover, auto, auto; background-position: center, center, center, center; background-attachment: fixed, fixed, fixed, fixed; }
 button, a, select { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 2px solid #00ff9d; outline-offset: 3px; }
 .scrollbar-hide { scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 ::selection { background: #00a86b; color: white; }
 
-.lumen-surface { background: rgba(11,15,13,.9); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 48px -14px rgba(0,0,0,.9); }
-.lumen-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(135deg, black, transparent 78%); }
+.lumen-topbar { background: rgba(3,10,6,.32) !important; border-color: rgba(255,255,255,.12) !important; }
+.lumen-surface { background: rgba(11,15,13,.72); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 24px 48px -14px rgba(0,0,0,.72); backdrop-filter: blur(18px); }
+.lumen-grid { background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(135deg, black, transparent 78%); opacity: .35; }
+.lumen-home-intro { min-height: 280px; justify-content: center; }
+.lumen-search-prompt { box-shadow: 0 18px 50px rgba(0,0,0,.32); }
+.lumen-sidebar a { border-radius: 999px; }
+.lumen-sidebar a[aria-current='page'] { box-shadow: 0 8px 26px rgba(110,231,183,.14); }
+.lumen-dock { box-shadow: 0 22px 60px rgba(0,0,0,.28); }
 
 .lumen-player:fullscreen {
   width: 100%;
@@ -131,4 +137,9 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
 
 @media (orientation: landscape) and (max-width: 900px) {
   .lumen-player-stage { height: 68dvh; min-height: 190px; }
+}
+
+@media (max-width: 640px) {
+  body { background-position: 58% center, 58% center, center, center; }
+  .lumen-home-intro { min-height: 250px; }
 }

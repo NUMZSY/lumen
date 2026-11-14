@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Gamepad2, MessageCircle, Play, Shuffle, Sparkles, Tv, Users, Wrench } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Gamepad2, MessageCircle, Play, Search, Shuffle, Sparkles, Tv, Users, Wrench } from 'lucide-react'
 import type { Game } from '@/lib/games'
 import { apps, type AppItem } from '@/lib/apps'
 import { watchItems, type WatchItem } from '@/lib/watch'
@@ -17,14 +17,15 @@ export function HomeDashboard({ games, savedGames, savedApps, watchlist, recentG
   const [greeting, setGreeting] = useState('Good afternoon')
   useEffect(() => { const hour = new Date().getHours(); setGreeting(hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening') }, [])
 
-  return <div className="space-y-10 pb-6">
-    <header className="flex flex-wrap items-end justify-between gap-5">
-      <div>
-        <p className="mb-2 text-[11px] font-medium tracking-wide text-emerald-200/75">{greeting}, welcome back.</p>
-        <h1 className="text-3xl font-semibold tracking-[-.045em] text-white sm:text-[42px]">What do you want to do?</h1>
-        <p className="mt-3 max-w-xl text-sm leading-6 text-white/45">A focused place for a quick game, a good watch, useful tools, and people to share them with.</p>
+  return <div className="lumen-home space-y-10 pb-6">
+    <header className="lumen-home-intro flex flex-col items-center gap-5 text-center">
+      <div className="max-w-2xl">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[.28em] text-emerald-200/80">Play · Watch · Create · Connect</p>
+        <h1 className="text-5xl font-semibold tracking-[-.08em] text-white sm:text-7xl">LUMEN<span className="text-emerald-300">.</span></h1>
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/55">{greeting}. One quiet launchpad for a quick game, a good watch, useful tools, and people to share them with.</p>
+        <Link href="/explore" className="lumen-search-prompt mx-auto mt-6 flex min-h-12 max-w-xl items-center gap-3 rounded-full border border-white/15 bg-black/25 px-4 text-left text-xs text-white/45 shadow-2xl backdrop-blur-xl transition hover:border-emerald-300/30 hover:bg-black/35 hover:text-white/80"><Search className="size-4 text-emerald-200"/><span className="flex-1">Search or enter a game</span><kbd className="rounded-full border border-white/10 px-2 py-1 font-mono text-[9px] text-white/30">⌘ K</kbd></Link>
       </div>
-      <button onClick={onSurprise} className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/10 bg-white/[.035] px-3.5 text-xs font-medium text-white/70 transition hover:border-emerald-300/25 hover:bg-emerald-300/10 hover:text-white"><Shuffle className="size-3.5"/>Surprise me</button>
+      <button onClick={onSurprise} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 bg-white/[.06] px-4 text-xs font-medium text-white/75 backdrop-blur-xl transition hover:border-emerald-300/30 hover:bg-emerald-300/10 hover:text-white"><Shuffle className="size-3.5"/>Surprise me</button>
     </header>
 
     <section className="relative overflow-hidden rounded-[28px] border border-white/[.1] bg-[#11131d] shadow-[0_24px_80px_rgba(0,0,0,.18)]" aria-label="Start here">
