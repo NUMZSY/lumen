@@ -1,0 +1,17 @@
+{
+  "routes": [
+    { "path": "/", "title": "Home" },
+    { "path": "/apps", "title": "Apps" },
+    { "path": "/apps/:slug", "title": "App" },
+    { "path": "/chat", "title": "Chat" },
+    { "path": "/explore", "title": "Explore" },
+    { "path": "/game-preview/:slug", "title": "Game Preview" },
+    { "path": "/games", "title": "Games" },
+    { "path": "/games/:slug", "title": "Game" },
+    { "path": "/library", "title": "Library" },
+    { "path": "/search", "title": "Search" },
+    { "path": "/settings", "title": "Settings" },
+    { "path": "/watch", "title": "Watch" },
+    { "path": "/watch/:slug", "title": "Watch item" }
+  ]
+}

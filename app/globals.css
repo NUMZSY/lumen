@@ -176,3 +176,259 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
   .lumen-home-intro h1 { font-size: 3.3rem !important; }
   .lumen-home > section[aria-label='Start here'] > div:last-child { padding: 1rem !important; }
 }
+
+/* Full-screen launcher inspired by the supplied reference HUD */
+.lumen-home-root {
+  min-height: 100dvh;
+  background:
+    linear-gradient(180deg, rgba(3, 12, 7, .34) 0%, rgba(3, 12, 7, .58) 55%, rgba(2, 8, 5, .72) 100%),
+    radial-gradient(circle at 50% 44%, rgba(67, 155, 96, .13), transparent 33%),
+    #07110a;
+}
+
+.lumen-home-root > .relative {
+  display: block;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+.lumen-home-root > .relative > .lumen-grid { display: none; }
+.lumen-home-root > .relative > main { width: 100%; min-height: 100dvh; }
+.lumen-home-root > .relative > main > .lumen-home { min-height: 100dvh; }
+
+.lumen-home-root .lumen-home-rail {
+  position: fixed;
+  z-index: 30;
+  top: 50%;
+  left: 10px;
+  display: block;
+  width: 32px;
+  transform: translateY(-50%);
+}
+
+.lumen-home-root .lumen-home-rail > div {
+  position: static;
+  min-height: 0 !important;
+  padding: 5px 4px;
+  border-color: rgba(255, 255, 255, .08);
+  border-radius: 16px !important;
+  background: rgba(2, 8, 5, .44);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
+  backdrop-filter: blur(16px);
+}
+
+.lumen-home-root .lumen-home-rail nav { gap: 3px !important; }
+.lumen-home-root .lumen-home-rail a {
+  width: 24px;
+  height: 24px;
+  min-height: 24px !important;
+  border-radius: 8px !important;
+}
+.lumen-home-root .lumen-home-rail a svg { width: 12px; height: 12px; }
+
+.lumen-home {
+  position: relative;
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.lumen-home::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(1, 5, 3, .54), transparent 23%, transparent 78%, rgba(1, 5, 3, .22));
+  content: '';
+  pointer-events: none;
+}
+
+.lumen-home-hero {
+  width: min(100% - 96px, 360px);
+  margin-top: -2dvh;
+  text-align: center;
+}
+
+.lumen-wordmark {
+  margin: 0;
+  color: rgba(245, 255, 247, .96);
+  font-size: clamp(2.35rem, 5vw, 3.35rem);
+  font-weight: 720;
+  letter-spacing: -.065em;
+  line-height: .95;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, .42);
+}
+
+.lumen-home-search {
+  display: flex;
+  width: 100%;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 4px 5px 4px 11px;
+  border: 1px solid rgba(152, 237, 183, .23);
+  border-radius: 999px;
+  color: rgba(169, 240, 191, .58);
+  background: rgba(23, 74, 45, .43);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .06);
+  backdrop-filter: blur(16px);
+}
+
+.lumen-home-search:focus-within {
+  border-color: rgba(176, 255, 204, .55);
+  background: rgba(34, 100, 60, .5);
+}
+
+.lumen-home-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  color: rgba(240, 255, 244, .92);
+  background: transparent;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.lumen-home-search input::placeholder { color: rgba(210, 245, 220, .62); }
+.lumen-home-search button {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #15462b;
+  background: #a8efc3;
+  transition: transform .2s ease, background .2s ease;
+}
+.lumen-home-search button:hover { transform: translateX(1px); background: #d2ffe0; }
+
+.lumen-home-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.lumen-home-chip {
+  display: inline-flex;
+  min-height: 23px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 9px;
+  border: 1px solid rgba(212, 255, 224, .13);
+  border-radius: 999px;
+  color: rgba(233, 255, 239, .72);
+  background: rgba(12, 45, 27, .42);
+  font-size: 8px;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color .2s ease, color .2s ease, background .2s ease, transform .2s ease;
+  backdrop-filter: blur(12px);
+}
+.lumen-home-chip:hover { transform: translateY(-1px); border-color: rgba(174, 255, 200, .4); color: #effff3; background: rgba(54, 121, 75, .48); }
+
+.lumen-online-badge,
+.lumen-home-socials {
+  position: fixed;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(184, 255, 205, .12);
+  color: rgba(224, 255, 232, .72);
+  background: rgba(7, 25, 14, .58);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .16);
+  font-size: 8px;
+  line-height: 1;
+  backdrop-filter: blur(14px);
+}
+
+.lumen-online-badge {
+  top: 8px;
+  left: 10px;
+  gap: 5px;
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: 5px;
+  letter-spacing: .01em;
+}
+.lumen-online-badge strong { color: #a6f2c0; font-weight: 650; }
+.lumen-online-dot { width: 5px; height: 5px; border-radius: 999px; background: #7ceaa4; box-shadow: 0 0 8px rgba(124, 234, 164, .9); }
+
+.lumen-home-corner-panel {
+  position: fixed;
+  z-index: 25;
+  bottom: 0;
+  left: 8px;
+  width: 184px;
+  height: 106px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-bottom: 0;
+  border-radius: 7px 7px 0 0;
+  background: rgba(0, 0, 0, .74);
+  box-shadow: 0 -12px 30px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(8px);
+}
+.lumen-home-corner-panel button {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #142018;
+  background: #f4fff7;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lumen-home-socials {
+  right: 10px;
+  bottom: 8px;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 6px;
+}
+.lumen-home-socials a {
+  display: inline-flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 4px;
+  padding: 0 7px;
+  border-radius: 4px;
+  color: rgba(230, 255, 237, .68);
+  text-decoration: none;
+  transition: color .2s ease, background .2s ease;
+}
+.lumen-home-socials a:hover { color: #fff; background: rgba(137, 239, 164, .13); }
+
+@media (max-width: 640px) {
+  .lumen-home-root .lumen-home-rail { left: 6px; }
+  .lumen-home-hero { width: min(100% - 70px, 340px); }
+  .lumen-home-corner-panel { width: 132px; height: 78px; }
+  .lumen-home-socials { right: 6px; }
+  .lumen-home-socials a { padding-inline: 5px; }
+  .lumen-home-socials a:first-child { display: none; }
+}
+
+.lumen-home-root,
+.lumen-home-root > .relative,
+.lumen-home-root > .relative > main,
+.lumen-home-root > .relative > main > .lumen-home {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.lumen-home-root { position: fixed; inset: 0; overflow: hidden; }

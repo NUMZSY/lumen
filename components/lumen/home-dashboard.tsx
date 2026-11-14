@@ -1,51 +1,76 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Gamepad2, MessageCircle, Play, Search, Shuffle, Sparkles, Tv, Users, Wrench } from 'lucide-react'
+import { ArrowRight, Gamepad2, Grid2X2, MessageCircle, Search, Settings2, Tv, Wrench } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import type { Game } from '@/lib/games'
-import { apps, type AppItem } from '@/lib/apps'
-import { watchItems, type WatchItem } from '@/lib/watch'
-import { AppCard } from '@/components/lumen/app-card'
-import { ContentRow } from '@/components/lumen/content-row'
-import { GameCard } from '@/components/lumen/game-card'
-import { QuickLaunch } from '@/components/lumen/quick-launch'
-import { WatchCard } from '@/components/lumen/watch-card'
+import type { AppItem } from '@/lib/apps'
+import type { WatchItem } from '@/lib/watch'
 
-export function HomeDashboard({ games, savedGames, savedApps, watchlist, recentGames, recentWatch, onPlay, onSaveGame, onSaveWatch, onSaveApp, onSurprise }: { games: Game[]; savedGames: string[]; savedApps: string[]; watchlist: string[]; recentGames: Game[]; recentWatch: WatchItem[]; onPlay: (game: Game) => void; onSaveGame: (game: Game) => void; onSaveWatch: (item: WatchItem) => void; onSaveApp: (item: AppItem) => void; onSurprise: () => void }) {
-  const featured = games.find((game) => game.featured) ?? games[0]
-  const [greeting, setGreeting] = useState('Good afternoon')
-  useEffect(() => { const hour = new Date().getHours(); setGreeting(hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening') }, [])
+const shortcuts = [
+  { label: 'games', href: '/games', icon: Gamepad2 },
+  { label: 'apps', href: '/apps', icon: Grid2X2 },
+  { label: 'watch', href: '/watch', icon: Tv },
+  { label: 'chat', href: '/chat', icon: MessageCircle },
+  { label: 'settings', href: '/settings', icon: Settings2 },
+]
 
-  return <div className="lumen-home space-y-6 pb-6">
-    <header className="lumen-home-intro flex flex-col items-center gap-5 text-center">
-      <div className="max-w-2xl">
-        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[.28em] text-emerald-200/80">Play · Watch · Create · Connect</p>
-        <h1 className="text-5xl font-semibold tracking-[-.08em] text-white sm:text-7xl">LUMEN<span className="text-emerald-300">.</span></h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/55">{greeting}. One quiet launchpad for a quick game, a good watch, useful tools, and people to share them with.</p>
-        <Link href="/explore" className="lumen-search-prompt mx-auto mt-6 flex min-h-12 max-w-xl items-center gap-3 rounded-full border border-white/15 bg-black/25 px-4 text-left text-xs text-white/45 shadow-2xl backdrop-blur-xl transition hover:border-emerald-300/30 hover:bg-black/35 hover:text-white/80"><Search className="size-4 text-emerald-200"/><span className="flex-1">Search or enter a game</span><kbd className="rounded-full border border-white/10 px-2 py-1 font-mono text-[9px] text-white/30">⌘ K</kbd></Link>
-      </div>
-      <button onClick={onSurprise} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 bg-white/[.06] px-4 text-xs font-medium text-white/75 backdrop-blur-xl transition hover:border-emerald-300/30 hover:bg-emerald-300/10 hover:text-white"><Shuffle className="size-3.5"/>Surprise me</button>
-    </header>
+type HomeDashboardProps = {
+  games: Game[]
+  savedGames: string[]
+  savedApps: string[]
+  watchlist: string[]
+  recentGames: Game[]
+  recentWatch: WatchItem[]
+  onPlay: (game: Game) => void
+  onSaveGame: (game: Game) => void
+  onSaveWatch: (item: WatchItem) => void
+  onSaveApp: (item: AppItem) => void
+  onSurprise: () => void
+}
 
-    <section className="relative overflow-hidden rounded-2xl border border-white/[.1] bg-black/20 shadow-[0_18px_50px_rgba(0,0,0,.22)] backdrop-blur-xl" aria-label="Start here">
-      <div aria-hidden="true" className="absolute inset-0 opacity-40" style={{ background: `radial-gradient(circle at 85% 50%, ${featured?.accent ?? '#9b87f5'}55, transparent 30%), linear-gradient(110deg, rgba(8,16,11,.75), rgba(18,25,23,.35))` }} />
-      <div className="relative flex flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-5">
-        <div className="min-w-0"><div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[.2em] text-emerald-200"><span className="size-1.5 rounded-full bg-emerald-300"/>Featured now</div><h2 className="mt-1 truncate text-xl font-semibold tracking-tight sm:text-2xl">{featured?.title}<span className="text-emerald-300">.</span></h2><p className="mt-1 hidden max-w-xl truncate text-[11px] text-white/45 sm:block">{featured?.description}</p></div>
-        <div className="flex shrink-0 flex-wrap gap-2"><button onClick={() => featured && onPlay(featured)} className="inline-flex min-h-9 items-center gap-2 rounded-full bg-white px-3.5 text-[11px] font-semibold text-[#11121a] transition hover:bg-emerald-100"><Play className="size-3 fill-current"/>Play</button><Link href="/games" className="inline-flex min-h-9 items-center gap-2 rounded-full border border-white/15 bg-white/[.04] px-3.5 text-[11px] text-white/75 transition hover:bg-white/[.1]">Games<ArrowRight className="size-3"/></Link><button onClick={onSurprise} aria-label="Find something unexpected" className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/[.035] text-white/65 transition hover:bg-white/[.08] hover:text-white"><Sparkles className="size-3.5 text-emerald-200"/></button></div>
-      </div>
+export function HomeDashboard(_props: HomeDashboardProps) {
+  const router = useRouter()
+  const [query, setQuery] = useState('')
+  const [cornerPanelOpen, setCornerPanelOpen] = useState(true)
+
+  const submitSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const value = query.trim()
+    router.push(value ? `/explore?q=${encodeURIComponent(value)}` : '/explore')
+  }
+
+  return <div className="lumen-home" aria-label="LUMEN home launcher">
+    <div className="lumen-online-badge" aria-label="Online users: 4">
+      <span aria-hidden="true" className="lumen-online-dot" />
+      <span>online users:</span>
+      <strong>4</strong>
+    </div>
+
+    <section className="lumen-home-hero" aria-labelledby="lumen-home-title">
+      <h1 id="lumen-home-title" className="lumen-wordmark">lumen</h1>
+      <form className="lumen-home-search" onSubmit={submitSearch} role="search">
+        <Search aria-hidden="true" className="size-3.5 shrink-0" />
+        <input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Search or enter a URL" placeholder="search or enter a url" autoComplete="off" />
+        <button type="submit" aria-label="Search LUMEN"><ArrowRight aria-hidden="true" className="size-3.5" /></button>
+      </form>
+      <nav className="lumen-home-shortcuts" aria-label="Quick launch">
+        {shortcuts.map(({ label, href, icon: Icon }) => <Link key={href} href={href} className="lumen-home-chip">
+          <Icon aria-hidden="true" className="size-3" />
+          <span>{label}</span>
+        </Link>)}
+      </nav>
     </section>
 
-    <QuickLaunch />
+    {cornerPanelOpen && <aside className="lumen-home-corner-panel" aria-label="Quick panel">
+      <button type="button" onClick={() => setCornerPanelOpen(false)} aria-label="Close quick panel">×</button>
+    </aside>}
 
-    <section className="grid gap-3 sm:grid-cols-3" aria-label="LUMEN destinations">
-      {[{ href: '/games', label: 'Games', detail: `${games.length} titles`, icon: Gamepad2, color: 'text-emerald-200 bg-emerald-400/10' }, { href: '/watch', label: 'Watch', detail: `${watchItems.length} open-licensed picks`, icon: Tv, color: 'text-blue-200 bg-blue-400/10' }, { href: '/apps', label: 'Apps', detail: `${apps.length} small tools`, icon: Wrench, color: 'text-cyan-200 bg-cyan-400/10' }].map(({ href, label, detail, icon: Icon, color }) => <Link key={href} href={href} className="group flex items-center gap-3 rounded-2xl border border-white/[.08] bg-white/[.025] p-4 transition hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[.05]"><span className={`grid size-10 place-items-center rounded-xl ${color}`}><Icon className="size-4"/></span><span className="min-w-0 flex-1"><strong className="block text-sm font-medium">{label}</strong><span className="mt-1 block truncate text-[10px] text-white/40">{detail}</span></span><ArrowUpRight className="size-4 text-white/25 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/70"/></Link>)}
-    </section>
-
-    {!!recentGames.length && <ContentRow title="Continue playing" eyebrow="PICK UP WHERE YOU LEFT OFF" href="/library"><div className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 xl:grid-cols-3">{recentGames.slice(0, 3).map((game) => <GameCard key={game.slug} game={game} saved={savedGames.includes(game.slug)} onSave={() => onSaveGame(game)} onPlay={() => onPlay(game)}/>)}</div></ContentRow>}
-    {!!recentWatch.length && <ContentRow title="Continue watching" eyebrow="PICK UP WHERE YOU LEFT OFF" href="/watch"><div className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 xl:grid-cols-3">{recentWatch.slice(0, 3).map((item) => <WatchCard key={item.slug} item={item} saved={watchlist.includes(item.slug)} onSave={() => onSaveWatch(item)}/>)}</div></ContentRow>}
-    <ContentRow title="Popular games" eyebrow="A GOOD PLACE TO START" href="/games"><div className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 xl:grid-cols-3">{games.slice(0, 3).map((game) => <GameCard key={game.slug} game={game} saved={savedGames.includes(game.slug)} onSave={() => onSaveGame(game)} onPlay={() => onPlay(game)}/>)}</div></ContentRow>
-    <div className="grid gap-4 xl:grid-cols-[1.25fr_.75fr]"><ContentRow title="Recommended watch" eyebrow="OPEN-LICENSED SHORTS" href="/watch"><div className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2">{watchItems.slice(0, 2).map((item) => <WatchCard key={item.slug} item={item} saved={watchlist.includes(item.slug)} onSave={() => onSaveWatch(item)}/>)}</div></ContentRow><section className="rounded-2xl border border-emerald-300/10 bg-[linear-gradient(145deg,rgba(139,92,246,.13),rgba(255,255,255,.025))] p-5 sm:p-6"><div className="flex items-center justify-between"><span className="grid size-10 place-items-center rounded-xl bg-emerald-300/10 text-emerald-100"><MessageCircle className="size-4"/></span><span className="flex items-center gap-1.5 text-[10px] text-emerald-200"><span className="size-1.5 rounded-full bg-emerald-300"/>Local demo</span></div><p className="mt-7 text-[10px] font-semibold uppercase tracking-[.2em] text-emerald-200/75">The commons</p><h2 className="mt-2 text-xl font-semibold tracking-tight">Talk to people in LUMEN.</h2><p className="mt-2 text-xs leading-5 text-white/45">Drop into the local room. Messages stay in this browser until realtime sync is connected.</p><Link href="/chat" className="mt-6 inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/15 px-3.5 text-xs text-white/75 transition hover:bg-white/[.08]">Open chat<Users className="size-3.5"/></Link></section></div>
-    <ContentRow title="Recently added apps" eyebrow="SMALL TOOLS, RIGHT HERE" href="/apps"><div className="grid grid-cols-1 gap-3 min-[440px]:grid-cols-2 xl:grid-cols-3">{apps.slice(0, 3).map((app) => <AppCard key={app.slug} app={app} saved={savedApps.includes(app.slug)} onSave={() => onSaveApp(app)}/>)}</div></ContentRow>
+    <div className="lumen-home-socials" aria-label="LUMEN links">
+      <Link href="/settings">credits</Link>
+      <Link href="/chat"><MessageCircle aria-hidden="true" className="size-3" />discord</Link>
+      <a href="https://www.tiktok.com/" target="_blank" rel="noreferrer"><Wrench aria-hidden="true" className="size-3" />tiktok</a>
+    </div>
   </div>
 }
