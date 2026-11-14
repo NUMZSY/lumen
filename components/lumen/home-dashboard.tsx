@@ -17,7 +17,7 @@ export function HomeDashboard({ games, savedGames, savedApps, watchlist, recentG
   const [greeting, setGreeting] = useState('Good afternoon')
   useEffect(() => { const hour = new Date().getHours(); setGreeting(hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening') }, [])
 
-  return <div className="lumen-home space-y-10 pb-6">
+  return <div className="lumen-home space-y-6 pb-6">
     <header className="lumen-home-intro flex flex-col items-center gap-5 text-center">
       <div className="max-w-2xl">
         <p className="mb-3 text-[10px] font-semibold uppercase tracking-[.28em] text-emerald-200/80">Play · Watch · Create · Connect</p>
