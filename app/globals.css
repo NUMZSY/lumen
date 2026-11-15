@@ -432,3 +432,37 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
 }
 
 .lumen-home-root { position: fixed; inset: 0; overflow: hidden; }
+
+/* Final HUD alignment pass */
+.lumen-home-root .lumen-home-rail {
+  left: 0;
+  width: 36px;
+}
+.lumen-home-root .lumen-home-rail > div {
+  padding: 6px 5px 6px 4px;
+  border-left: 0;
+  border-radius: 0 16px 16px 0 !important;
+}
+.lumen-home-root .lumen-home-rail a {
+  width: 27px;
+  height: 27px;
+  min-height: 27px !important;
+  border-radius: 9px !important;
+}
+.lumen-home-root .lumen-home-rail a svg { width: 13px; height: 13px; }
+.lumen-home-root .lumen-home-rail::after {
+  position: absolute;
+  top: 50%;
+  right: -7px;
+  display: grid;
+  width: 14px;
+  height: 22px;
+  place-items: center;
+  border-radius: 0 8px 8px 0;
+  color: rgba(228, 255, 235, .58);
+  background: rgba(2, 8, 5, .52);
+  content: '‹';
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(-50%);
+}
