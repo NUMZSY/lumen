@@ -235,7 +235,7 @@ export function LumenAppShell() {
   const sectionTitle = pathname === '/' ? 'Home' : pathname.startsWith('/games') ? 'Games' : pathname.startsWith('/watch') ? 'Watch' : pathname.startsWith('/apps') ? 'Apps' : pathname.startsWith('/chat') ? 'Chat' : pathname.startsWith('/library') ? 'Library' : pathname.startsWith('/settings') ? 'Settings' : 'Explore'
   const isHome = pathname === '/'
 
-  return <div data-reduced-motion={settings.reducedMotion || undefined} className="min-h-screen overflow-x-hidden text-white" style={style}>
+  return <div data-reduced-motion={settings.reducedMotion || undefined} className={`${isHome ? 'lumen-home-root' : ''} min-h-screen overflow-x-hidden text-white`} style={style}>
     {!isHome && <Navbar pathname={pathname} savedCount={savedGames.length + watchlist.length + savedApps.length} onSearch={() => setSearchOpen(true)} onProfile={() => showNotice('Sign-in and cloud sync are coming soon. Your current library stays on this device.')} />}
     <div className="relative mx-auto grid max-w-[1480px] gap-6 px-4 py-6 sm:px-8 sm:py-9 lg:grid-cols-[68px_minmax(0,1fr)] lg:gap-5"><div aria-hidden="true" className="lumen-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] opacity-60"/><Sidebar pathname={pathname}/><main className="min-w-0">
       {pathname === '/' && <HomeDashboard games={games} savedGames={savedGames} savedApps={savedApps} watchlist={watchlist} recentGames={recentGameItems} recentWatch={recentWatchItems} onPlay={playGame} onSaveGame={saveGame} onSaveWatch={saveWatch} onSaveApp={saveApp} onSurprise={() => games.length && playGame(games[Math.floor(Math.random() * games.length)])}/>}

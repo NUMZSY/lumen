@@ -466,3 +466,42 @@ button, a, select { -webkit-tap-highlight-color: transparent; }
   line-height: 1;
   transform: translateY(-50%);
 }
+
+/* Interactive launcher rail controls */
+.lumen-home-root .lumen-home-rail::after { display: none; }
+.lumen-home-root .lumen-home-rail.is-collapsed > div { display: none; }
+.lumen-rail-toggle {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  display: grid;
+  width: 16px;
+  height: 24px;
+  place-items: center;
+  border: 0;
+  border-radius: 0 8px 8px 0;
+  color: rgba(228, 255, 235, .7);
+  background: rgba(2, 8, 5, .68);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color .2s ease, background .2s ease;
+}
+.lumen-rail-toggle:hover { color: #fff; background: rgba(25, 95, 52, .86); }
+.lumen-rail-toggle svg { width: 12px; height: 12px; }
+.lumen-home-credits {
+  position: fixed;
+  right: 12px;
+  bottom: 10px;
+  z-index: 40;
+  min-height: 21px;
+  padding: 0 9px;
+  border: 1px solid rgba(184, 255, 205, .12);
+  border-radius: 5px;
+  color: rgba(230, 255, 237, .72);
+  background: rgba(7, 25, 14, .58);
+  font-size: 8px;
+  line-height: 21px;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+}
+.lumen-home-credits:hover { color: #fff; background: rgba(137, 239, 164, .13); }

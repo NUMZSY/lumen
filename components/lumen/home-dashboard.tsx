@@ -64,5 +64,6 @@ export function HomeDashboard(_props: HomeDashboardProps) {
       </nav>
     </section>
 
+    <Link href="/settings" className="lumen-home-credits">credits</Link>
   </div>
 }
