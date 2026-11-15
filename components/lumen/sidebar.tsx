@@ -33,7 +33,7 @@ type SidebarItem = typeof primary[number]
 type SidebarProps = { pathname: string; compact?: boolean }
 
 export function Sidebar({ pathname, compact = false }: SidebarProps) {
-  const homeMode = compact || pathname === '/'
+  const homeMode = compact || pathname === '/' || pathname === '/games'
   const [collapsed, setCollapsed] = useState(false)
   const renderItem = ({ href, label, icon: Icon }: SidebarItem) => {
     const active = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)

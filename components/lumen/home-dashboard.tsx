@@ -31,6 +31,7 @@ type HomeDashboardProps = {
 
 export function HomeDashboard(_props: HomeDashboardProps) {
   const [query, setQuery] = useState('')
+  const [creditsOpen, setCreditsOpen] = useState(false)
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -64,6 +65,14 @@ export function HomeDashboard(_props: HomeDashboardProps) {
       </nav>
     </section>
 
-    <Link href="/settings" className="lumen-home-credits">credits</Link>
+    <button type="button" onClick={() => setCreditsOpen(true)} className="lumen-home-credits">credits</button>
+    {creditsOpen && <div className="lumen-credits-backdrop" role="presentation" onClick={() => setCreditsOpen(false)}>
+      <section className="lumen-credits-dialog" role="dialog" aria-modal="true" aria-labelledby="lumen-credits-title" onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="lumen-credits-close" onClick={() => setCreditsOpen(false)} aria-label="Close credits">×</button>
+        <p className="lumen-credits-kicker">LUMEN</p>
+        <h2 id="lumen-credits-title">Credits</h2>
+        <p>A quiet launcher for browser games, useful tools, and things worth exploring.</p>
+      </section>
+    </div>}
   </div>
 }
