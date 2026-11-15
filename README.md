@@ -20,3 +20,8 @@ LUMEN is a responsive entertainment hub for browser games, open-licensed video s
 7. Move notes, tasks, favorites, and watch progress to user-scoped tables only when account sync is implemented. Every query must be scoped to the authenticated user, and RLS must enforce the same boundary.
 
 The current app intentionally has no Supabase client or backend dependency. Connect the integration and define its schema/policies before adding database code.
+
+## Workspace refresh and web proxy
+The shared workspace now uses a labeled sidebar across Home, Explore, Games, Watch, Apps, Web search, Chat, Library, and Settings. Home search routes into LUMEN's in-site browser surface. Settings stores the selected proxy engine (Ultraviolet or Scramjet) and a proxy service base URL in local browser storage.
+
+This repository does **not** include or deploy an Ultraviolet or Scramjet proxy server. Browsing requires a separately hosted, trusted proxy service. The browser UI currently builds engine paths as `/service/<URI-encoded destination>` for Ultraviolet and `/scramjet/<URI-encoded destination>` for Scramjet; a proxy deployment may need an adapter to match its client codec, prefix, and server configuration. Do not enter sensitive credentials into a third-party proxy, and configure the endpoint only if you control or trust its operator.

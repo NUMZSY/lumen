@@ -8,11 +8,11 @@ import type { AppItem } from '@/lib/apps'
 import type { WatchItem } from '@/lib/watch'
 
 const shortcuts = [
-  { label: 'study', href: '/games', icon: BookOpen },
-  { label: 'apps', href: '/apps', icon: Grid2X2 },
-  { label: 'music', href: '/watch', icon: Music2 },
-  { label: 'cloud', href: '/library', icon: Cloud },
-  { label: 'settings', href: '/settings', icon: Settings2 },
+  { label: 'Games', href: '/games', icon: BookOpen },
+  { label: 'Apps', href: '/apps', icon: Grid2X2 },
+  { label: 'Watch', href: '/watch', icon: Music2 },
+  { label: 'Library', href: '/library', icon: Cloud },
+  { label: 'Settings', href: '/settings', icon: Settings2 },
 ]
 
 type HomeDashboardProps = {
@@ -37,10 +37,7 @@ export function HomeDashboard(_props: HomeDashboardProps) {
     event.preventDefault()
     const value = query.trim()
     if (!value) return
-    const isUrl = /^https?:\/\//i.test(value)
-    const isDomain = /^(?:localhost|(?:[a-z0-9-]+\.)+[a-z]{2,})(?::\d+)?(?:\/.*)?$/i.test(value)
-    const destination = isUrl ? value : isDomain ? `https://${value}` : `https://duckduckgo.com/?q=${encodeURIComponent(value)}`
-    window.location.assign(destination)
+    window.location.assign(`/search?q=${encodeURIComponent(value)}`)
   }
 
   return <div className="lumen-home" aria-label="LUMEN home launcher">

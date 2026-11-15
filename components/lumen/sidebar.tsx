@@ -1,56 +1,29 @@
 'use client'
-
 import Link from 'next/link'
-import { useState } from 'react'
-import { Bookmark, ChevronLeft, ChevronRight, Cloud, Folder, Gamepad2, Grid2X2, Home, MessageCircle, Music2, Search, Settings2, Tv } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { Bookmark, Compass, Gamepad2, Grid2X2, Home, MessageCircle, Search, Settings2, Tv, type LucideIcon } from 'lucide-react'
 
-const primary = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/games', label: 'Games', icon: Gamepad2 },
-  { href: '/search', label: 'Search', icon: Search },
-  { href: '/watch', label: 'Watch', icon: Tv },
-  { href: '/apps', label: 'Apps', icon: Grid2X2 },
-  { href: '/chat', label: 'Chat', icon: MessageCircle },
+const destinations: { href: string; label: string; icon: LucideIcon; group: string }[] = [
+  { href: '/', label: 'Home', icon: Home, group: 'Discover' },
+  { href: '/explore', label: 'Explore', icon: Compass, group: 'Discover' },
+  { href: '/games', label: 'Games', icon: Gamepad2, group: 'Discover' },
+  { href: '/watch', label: 'Watch', icon: Tv, group: 'Discover' },
+  { href: '/apps', label: 'Apps', icon: Grid2X2, group: 'Discover' },
+  { href: '/search', label: 'Web search', icon: Search, group: 'Workspace' },
+  { href: '/chat', label: 'Chat', icon: MessageCircle, group: 'Workspace' },
+  { href: '/library', label: 'Library', icon: Bookmark, group: 'You' },
+  { href: '/settings', label: 'Settings', icon: Settings2, group: 'You' },
 ]
 
-const secondary = [
-  { href: '/library', label: 'Library', icon: Bookmark },
-  { href: '/settings', label: 'Settings', icon: Settings2 },
-]
-
-const compactPrimary = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/games', label: 'Games', icon: Gamepad2 },
-  { href: '/apps', label: 'Apps', icon: Grid2X2 },
-  { href: '/explore', label: 'Explore', icon: Cloud },
-  { href: '/watch', label: 'Watch', icon: Music2 },
-  { href: '/library', label: 'Library', icon: Folder },
-  { href: '/settings', label: 'Settings', icon: Settings2 },
-]
-
-type SidebarItem = typeof primary[number]
-
-type SidebarProps = { pathname: string; compact?: boolean }
-
-export function Sidebar({ pathname, compact = false }: SidebarProps) {
-  const homeMode = compact || pathname === '/' || pathname === '/games'
-  const [collapsed, setCollapsed] = useState(false)
-  const renderItem = ({ href, label, icon: Icon }: SidebarItem) => {
-    const active = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)
-    return <Link key={href} href={href} title={label} aria-label={label} aria-current={active ? 'page' : undefined} className={`group grid size-10 place-items-center rounded-2xl text-xs transition ${active ? 'bg-emerald-300 text-[#171321] shadow-[0_8px_22px_rgba(167,139,250,.16)]' : 'text-white/48 hover:bg-white/[.06] hover:text-white'}`}><Icon aria-hidden="true" className={`size-4 transition ${active ? '' : 'group-hover:text-emerald-200'}`} /><span className="sr-only">{label}</span></Link>
-  }
-
-  return <aside className={`${homeMode ? 'lumen-sidebar lumen-home-rail' : 'lumen-sidebar hidden lg:block'} ${homeMode && collapsed ? 'is-collapsed' : ''}`}>
-    <div className="sticky top-24 flex min-h-[calc(100vh-130px)] flex-col rounded-[24px] border border-white/[.08] bg-black/20 p-3 shadow-2xl backdrop-blur-xl">
-      <div>
-        {!homeMode && <p className="mb-3 px-3 text-[9px] font-semibold uppercase tracking-[.22em] text-white/30">Workspace</p>}
-        <nav aria-label={homeMode ? 'LUMEN launcher' : 'LUMEN sections'} className="flex flex-col gap-1">{(homeMode ? compactPrimary : primary).map(renderItem)}</nav>
-      </div>
-      {!homeMode && <div className="mt-8 border-t border-white/[.07] pt-6"><p className="mb-3 px-3 text-[9px] font-semibold uppercase tracking-[.22em] text-white/30">Personal</p><nav aria-label="Personal sections" className="flex flex-col gap-1">{secondary.map(renderItem)}</nav></div>}
-      {!homeMode && <div className="mt-auto rounded-2xl border border-emerald-300/10 bg-emerald-300/[.04] p-4"><div className="flex items-center gap-2"><span className="size-2 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,.7)]"/><span className="text-[9px] font-semibold uppercase tracking-[.16em] text-emerald-200/75">Local mode</span></div><p className="mt-3 text-[11px] font-medium text-white/75">Your space is ready.</p><p className="mt-1 text-[10px] leading-4 text-white/35">Favorites and history stay on this device.</p></div>}
-    </div>
-    {homeMode && <button type="button" className="lumen-rail-toggle" onClick={() => setCollapsed((value) => !value)} aria-label={collapsed ? 'Expand launcher rail' : 'Minimize launcher rail'} aria-expanded={!collapsed}>
-      {collapsed ? <ChevronRight aria-hidden="true" /> : <ChevronLeft aria-hidden="true" />}
-    </button>}
+export function Sidebar({ pathname: pathnameProp }: { pathname?: string; compact?: boolean }) {
+  const currentPath = usePathname() || pathnameProp || '/'
+  return <aside className="lumen-sidebar" aria-label="Sidebar">
+    <div className="lumen-sidebar-brand"><Link href="/" aria-label="LUMEN home"><span className="lumen-brand-mark">L</span><span>LUMEN</span><span className="lumen-brand-live"><i />LIVE</span></Link></div>
+    {['Discover', 'Workspace', 'You'].map((group) => <section key={group} className="lumen-nav-group"><p>{group}</p><nav aria-label={`${group} navigation`}>{destinations.filter((item) => item.group === group).map(({ href, label, icon: Icon }) => {
+      const active = href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(`${href}/`)
+      return <Link key={href} href={href} aria-current={active ? 'page' : undefined} className={`lumen-nav-link${active ? ' is-active' : ''}`}><Icon aria-hidden="true" /><span>{label}</span>{label === 'Chat' && <span className="lumen-nav-dot" aria-label="Local demo" />}</Link>
+    })}</nav></section>)}
+    <div className="lumen-sidebar-note"><span className="lumen-note-icon">✦</span><div><strong>Your space, your pace.</strong><p>Favorites and history stay on this device.</p></div></div>
+    <div className="lumen-sidebar-profile"><span>G</span><div><strong>Guest space</strong><small>Local profile</small></div><i /></div>
   </aside>
 }
