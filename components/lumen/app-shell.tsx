@@ -236,11 +236,11 @@ export function LumenAppShell() {
   const style = settings.theme === 'dim' ? { backgroundColor: 'rgba(17,20,29,.24)' } : { backgroundColor: 'rgba(8,10,18,.16)' }
   const sectionTitle = pathname === '/' ? 'Home' : pathname.startsWith('/games') ? 'Games' : pathname.startsWith('/watch') ? 'Watch' : pathname.startsWith('/apps') ? 'Apps' : pathname.startsWith('/chat') ? 'Chat' : pathname.startsWith('/library') ? 'Library' : pathname.startsWith('/settings') ? 'Settings' : 'Explore'
   const isHome = pathname === '/'
-  const isHudRoute = false
+  const isHudRoute = true
 
   return <div data-reduced-motion={settings.reducedMotion || undefined} className={`lumen-app-root ${isHudRoute ? 'lumen-home-root' : ''} min-h-screen overflow-x-hidden text-white`} style={style}>
     {!isHudRoute && <Navbar pathname={pathname} savedCount={savedGames.length + watchlist.length + savedApps.length} onSearch={() => setSearchOpen(true)} onProfile={() => showNotice('Sign-in and cloud sync are coming soon. Your current library stays on this device.')} />}
-    <div className="relative mx-auto grid max-w-[1480px] gap-6 px-4 py-6 sm:px-8 sm:py-9 lg:grid-cols-[68px_minmax(0,1fr)] lg:gap-5"><div aria-hidden="true" className="lumen-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] opacity-60"/><Sidebar pathname={pathname}/><main className="min-w-0">
+    <div className="relative mx-auto grid max-w-[1480px] gap-6 px-4 py-6 sm:px-8 sm:py-9 lg:grid-cols-[68px_minmax(0,1fr)] lg:gap-5"><div aria-hidden="true" className="lumen-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] opacity-60"/><Sidebar pathname={pathname}/><main className={`lumen-content-area ${isHome ? 'is-home' : 'is-page'}`}>
       {pathname === '/' && <HomeDashboard games={games} savedGames={savedGames} savedApps={savedApps} watchlist={watchlist} recentGames={recentGameItems} recentWatch={recentWatchItems} onPlay={playGame} onSaveGame={saveGame} onSaveWatch={saveWatch} onSaveApp={saveApp} onSurprise={() => games.length && playGame(games[Math.floor(Math.random() * games.length)])}/>}
       {pathname === '/games' && <GamesCatalogPage games={visibleGames} savedGames={savedGames} onSave={saveGame} onPlay={playGame} returnTo={catalogHref} query={catalogQuery} onQuery={updateCatalogQuery} category={category} categories={gameCategories} onCategory={updateCatalogCategory} sort={sort} onSort={(value) => { setSort(value); const params = new URLSearchParams(window.location.search); if (value === 'Featured') params.delete('sort'); else params.set('sort', value); window.history.replaceState(window.history.state, '', params.size ? `/games?${params.toString()}` : '/games') }} />}
       {pathname === '/explore' && <>

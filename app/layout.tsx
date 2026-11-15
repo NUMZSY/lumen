@@ -3,10 +3,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: { default: 'LUMEN — Games, Watch, Apps & Chat', template: '%s | LUMEN' },
+  title: { default: 'Xylora — Play, Watch, Explore', template: '%s | Xylora' },
   description: 'LUMEN is one place for browser games, licensed short films, useful mini apps, and community chat.',
-  generator: 'LUMEN',
-  applicationName: 'LUMEN',
+  generator: 'Xylora',
+  applicationName: 'Xylora',
   icons: {
     icon: [
       { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },

@@ -8,11 +8,11 @@ import type { AppItem } from '@/lib/apps'
 import type { WatchItem } from '@/lib/watch'
 
 const shortcuts = [
-  { label: 'Games', href: '/games', icon: BookOpen },
-  { label: 'Apps', href: '/apps', icon: Grid2X2 },
-  { label: 'Watch', href: '/watch', icon: Music2 },
-  { label: 'Library', href: '/library', icon: Cloud },
-  { label: 'Settings', href: '/settings', icon: Settings2 },
+  { label: 'study', href: '/games', icon: BookOpen },
+  { label: 'apps', href: '/apps', icon: Grid2X2 },
+  { label: 'music', href: '/watch', icon: Music2 },
+  { label: 'cloud', href: '/library', icon: Cloud },
+  { label: 'settings', href: '/settings', icon: Settings2 },
 ]
 
 type HomeDashboardProps = {
@@ -48,7 +48,7 @@ export function HomeDashboard(_props: HomeDashboardProps) {
     </div>
 
     <section className="lumen-home-hero" aria-labelledby="lumen-home-title">
-      <h1 id="lumen-home-title" className="lumen-wordmark">lumen</h1>
+      <h1 id="lumen-home-title" className="lumen-wordmark"><span>xy</span><em>lora</em></h1>
       <form className="lumen-home-search" onSubmit={submitSearch} role="search">
         <Search aria-hidden="true" className="size-3.5 shrink-0" />
         <input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Search the web or enter a URL" placeholder="search the web or enter a url" autoComplete="off" />
