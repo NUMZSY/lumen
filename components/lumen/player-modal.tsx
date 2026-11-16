@@ -38,7 +38,7 @@ function safeDestination(game: Game, settings: LumenSettings) {
   const directUrl = getDirectGameUrl(game)
   if (!directUrl) return null
   if (!directUrl.startsWith('https://')) return directUrl
-  return makeProxyUrl(settings.proxyEngine, settings.proxyEndpoint, directUrl) || directUrl
+  return settings.proxyEnabled ? makeProxyUrl(settings.proxyEngine, settings.proxyEndpoint, directUrl) || directUrl : directUrl
 }
 
 function directLink(game: Game) {
@@ -51,6 +51,10 @@ export function PlayerModal({ game, settings, onClose, onReport }: { game: Game;
   const [frameError, setFrameError] = useState(false)
   const source = useMemo(() => safeDestination(game, settings), [game, settings])
   const providerUrl = useMemo(() => directLink(game), [game])
+  const trustedScramjetFrame = useMemo(() => {
+    if (!settings.proxyEnabled || settings.proxyEngine !== 'scramjet' || !settings.proxyEndpoint || !source) return false
+    try { return new URL(source).origin === new URL(settings.proxyEndpoint).origin } catch { return false }
+  }, [settings.proxyEnabled, settings.proxyEngine, settings.proxyEndpoint, source])
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose() }
@@ -77,10 +81,10 @@ export function PlayerModal({ game, settings, onClose, onReport }: { game: Game;
         </div>
       </header>
       <div id={`lumen-game-player-${game.slug}`} className="relative min-h-[min(70vh,620px)] bg-[#090a10]">
-        {source && !frameError && <iframe key={`${game.slug}-${retry}`} title={`${game.title} player`} src={source} className="absolute inset-0 size-full border-0" allow="autoplay; fullscreen; gamepad; picture-in-picture; pointer-lock; clipboard-read; clipboard-write" allowFullScreen referrerPolicy="no-referrer" sandbox={external ? 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-modals' : undefined} onError={() => setFrameError(true)} />}
+        {source && !frameError && <iframe key={`${game.slug}-${retry}`} title={`${game.title} player`} src={source} className="absolute inset-0 size-full border-0" allow="cross-origin-isolated; autoplay; fullscreen; gamepad; picture-in-picture; pointer-lock; clipboard-read; clipboard-write" allowFullScreen referrerPolicy="no-referrer" sandbox={external && !trustedScramjetFrame ? 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-modals' : undefined} onError={() => setFrameError(true)} />}
         {(frameError || !source) && <div className="absolute inset-0 grid place-items-center px-6 text-center"><div className="max-w-md"><h3 className="text-lg font-semibold">Game could not load in the frame</h3><p className="mt-2 text-sm leading-6 text-white/55">The game is still available from its listed provider. Some sites prevent embedding in other pages; try opening the provider directly.</p><div className="mt-5 flex flex-wrap justify-center gap-2"><button onClick={() => { setFrameError(false); setRetry((value) => value + 1) }} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-white px-4 text-xs font-semibold text-[#11121a]"><RotateCcw className="size-3.5" />Try again</button>{providerUrl && <a href={providerUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/15 px-4 text-xs text-white/75"><ExternalLink className="size-3.5" />Open provider</a>}</div></div></div>}
       </div>
-      <footer className="flex min-h-10 items-center justify-between gap-3 border-t border-white/10 px-3 text-[10px] text-white/40 sm:px-4"><span className="truncate">{settings.proxyEndpoint ? `In-site player · ${settings.proxyEngine === 'ultraviolet' ? 'Ultraviolet' : 'Scramjet'}` : 'In-site player · direct provider fallback'}</span><span>Esc to close</span></footer>
+      <footer className="flex min-h-10 items-center justify-between gap-3 border-t border-white/10 px-3 text-[10px] text-white/40 sm:px-4"><span className="truncate">{settings.proxyEnabled && settings.proxyEndpoint ? `In-site player · ${settings.proxyEngine === 'ultraviolet' ? 'Ultraviolet' : 'Scramjet'}` : 'In-site player · direct provider fallback'}</span><span>Esc to close</span></footer>
     </section>
   </div>
 }

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="dark" />
+    <title>LUMEN · Private web bridge</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="/scram/scramjet.all.js"></script>
+    <script src="/baremux/index.js"></script>
+    <link rel="stylesheet" href="index.css" />
+    <script src="register-sw.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <main class="page-wrap">
+      <div class="brand"><span class="brand-mark">L</span><div><strong>LUMEN</strong><span>PRIVATE WEB BRIDGE</span></div></div>
+      <section id="access-gate" class="access-card" hidden>
+        <p class="eyebrow">PROTECTED CONNECTION</p>
+        <h1>Enter your access code</h1>
+        <p class="muted">This private Scramjet service is protected. The code is checked by the server and is not added to the destination URL.</p>
+        <form id="access-form">
+          <label for="access-code">Proxy access code</label>
+          <input id="access-code" type="password" autocomplete="current-password" required minlength="24" placeholder="Enter the code configured by the service owner" />
+          <button type="submit">Continue</button>
+        </form>
+        <p id="access-error" class="error" role="alert" hidden></p>
+      </section>
+      <section id="home-card" class="home-card">
+        <p class="eyebrow">IN-SITE BROWSER</p>
+        <h1>Search or open a site</h1>
+        <p class="muted">Your search stays in the LUMEN browser. Proxy access is limited to people with the service access code.</p>
+        <form id="sj-form" class="address-form">
+          <input id="sj-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden" />
+          <label class="sr-only" for="sj-address">Search or enter a URL</label>
+          <input id="sj-address" type="text" placeholder="Search or enter a URL" autocomplete="off" />
+          <button type="submit">Go</button>
+        </form>
+        <p id="sj-error" class="error" role="alert"></p>
+        <pre id="sj-error-code" class="error-detail"></pre>
+      </section>
+      <footer>Powered by <a href="https://github.com/MercuryWorkshop/Scramjet-App" target="_blank" rel="noopener noreferrer">Scramjet-App</a> · <a href="credits.html">Credits &amp; license</a></footer>
+    </main>
+    <a class="source-notice" href="https://github.com/NUMZSY/lumen/tree/main/services/scramjet" target="_blank" rel="noopener noreferrer">Proxy source &amp; license</a>
+  </body>
+</html>

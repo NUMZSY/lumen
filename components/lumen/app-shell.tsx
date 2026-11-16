@@ -29,7 +29,7 @@ import { Sidebar } from '@/components/lumen/sidebar'
 import { WatchCard } from '@/components/lumen/watch-card'
 import { WatchPlayer } from '@/components/lumen/watch-player'
 
-const defaultSettings: LumenSettings = { theme: 'dark', reducedMotion: false, autoplay: false, sound: false, chatMuted: false, proxyEngine: 'ultraviolet', proxyEndpoint: '' }
+const defaultSettings: LumenSettings = { theme: 'dark', reducedMotion: false, autoplay: false, sound: false, chatMuted: false, proxyEngine: 'scramjet', proxyEndpoint: process.env.NEXT_PUBLIC_SCRAMJET_ENDPOINT?.trim() ?? '', proxyEnabled: true }
 const genres = ['All', ...Array.from(new Set(watchItems.flatMap((item) => item.genres))).sort()]
 
 function readReturnHref(pathname: '/games' | '/watch') {
@@ -81,7 +81,15 @@ export function LumenAppShell() {
     setOpenedApps(readStorage(storageKeys.openedApps, []))
     setSavedApps(readStorage(storageKeys.savedApps, []))
     setChatMessages(readStorage(storageKeys.chatMessages, welcomeMessages))
-    setSettings({ ...defaultSettings, ...readStorage(storageKeys.appSettings, {}) })
+    const storedSettings = readStorage(storageKeys.appSettings, {}) as Partial<LumenSettings>
+    const storedEndpoint = typeof storedSettings.proxyEndpoint === 'string' ? storedSettings.proxyEndpoint.trim() : ''
+    setSettings({
+      ...defaultSettings,
+      ...storedSettings,
+      proxyEngine: storedSettings.proxyEngine === 'ultraviolet' && !storedEndpoint && defaultSettings.proxyEndpoint ? 'scramjet' : storedSettings.proxyEngine ?? defaultSettings.proxyEngine,
+      proxyEndpoint: storedEndpoint || defaultSettings.proxyEndpoint,
+      proxyEnabled: storedSettings.proxyEnabled ?? defaultSettings.proxyEnabled,
+    })
     setWatchProgress(readStorage(storageKeys.watchProgress, {}))
     setRecentSearches(readStorage(storageKeys.recentSearches, []))
     const params = new URLSearchParams(window.location.search)
