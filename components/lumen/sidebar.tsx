@@ -2,23 +2,21 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Bookmark, ChevronLeft, ChevronRight, Gamepad2, Grid2X2, Home, MessageCircle, Search, Settings2, Tv, Users, Compass } from 'lucide-react'
+import { Bookmark, ChevronLeft, ChevronRight, Compass, Gamepad2, Grid2X2, Home, MessageCircle, Search, Settings2, Tv } from 'lucide-react'
 
 const items = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/games', label: 'Games', icon: Gamepad2 },
+  { href: '/watch', label: 'Watch', icon: Tv },
   { href: '/apps', label: 'Apps', icon: Grid2X2 },
   { href: '/search', label: 'Web search', icon: Search },
-  { href: '/watch', label: 'Watch', icon: Tv },
+  { href: '/explore', label: 'Explore', icon: Compass },
   { href: '/library', label: 'Library', icon: Bookmark },
   { href: '/chat', label: 'Chat', icon: MessageCircle },
-  { href: '/explore', label: 'Explore', icon: Compass },
   { href: '/settings', label: 'Settings', icon: Settings2 },
-  { href: '/community', label: 'Community', icon: Users },
 ]
 
 type SidebarItem = typeof items[number]
-
 type SidebarProps = { pathname: string; compact?: boolean }
 
 export function Sidebar({ pathname }: SidebarProps) {
