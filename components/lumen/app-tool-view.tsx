@@ -4,12 +4,14 @@ import { useEffect, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { Check, Copy, Dices, ListTodo, NotebookPen, Palette, Play, RotateCcw, Timer, Trash2 } from 'lucide-react'
 import type { AppItem } from '@/lib/apps'
 import { readStorage, storageKeys, writeStorage } from '@/lib/storage'
+import { EmbeddedBrowser } from '@/components/lumen/embedded-browser'
+import type { LumenSettings } from '@/components/lumen/settings-page'
 
 type Todo = { id: string; text: string; done: boolean }
 
 function makePalette() { return Array.from({ length: 5 }, () => `#${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`) }
 
-export function AppToolView({ app }: { app: AppItem }) {
+export function AppToolView({ app, settings }: { app: AppItem; settings: LumenSettings }) {
   const [note, setNote] = useState('')
   const [storageReady, setStorageReady] = useState(false)
   const [todos, setTodos] = useState<Todo[]>([])
@@ -59,6 +61,7 @@ export function AppToolView({ app }: { app: AppItem }) {
   const unitResult = Number(unitValue) * (unitMode === 'cm-in' ? 0.393701 : 9 / 5) + (unitMode === 'c-f' ? 32 : 0)
   const title = app.name
   const card = 'rounded-2xl border border-white/[.08] bg-[#10121b] p-4 sm:p-6'
+  if (/^https?:\/\//i.test(app.route)) return <EmbeddedBrowser settings={settings} initialQuery={app.route} autoOpen title={app.name} description={app.description} />
 
   return <section aria-labelledby="tool-title" className="mx-auto max-w-3xl"><div className="mb-6 flex items-center gap-3"><span className="grid size-11 place-items-center rounded-xl border border-emerald-200/10 bg-emerald-400/10 text-emerald-100"><span className="text-lg">{app.icon === 'NotebookPen' ? '✎' : app.icon === 'Calculator' ? '÷' : app.icon === 'Timer' ? '◷' : app.icon === 'ListTodo' ? '✓' : app.icon === 'Palette' ? '◉' : '✦'}</span></span><div><p className="text-[9px] uppercase tracking-[.2em] text-emerald-200/70">LUMEN mini app</p><h1 id="tool-title" className="text-2xl font-semibold">{title}</h1></div></div>
     {app.slug === 'notes' && <div className={card}><label htmlFor="lumen-notes" className="text-xs font-medium">Your notes</label><textarea id="lumen-notes" value={note} onChange={(event) => setNote(event.target.value)} maxLength={12000} placeholder="Write something worth remembering..." className="mt-3 min-h-64 w-full resize-y rounded-xl border border-white/[.08] bg-black/20 p-4 text-sm leading-6 outline-none placeholder:text-white/30 focus:border-emerald-300/40"/><p className="mt-2 text-[10px] text-white/40">Saved on this device · {note.length}/12,000 characters</p></div>}
