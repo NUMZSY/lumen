@@ -36,6 +36,9 @@ function hostedGame(game: HostedGame, sourceType: GameSourceType = 'approved-emb
   }
 }
 
+
+function externalGame(game: Omit<Game, 'sourceType'>): Game { return { ...game, sourceType: 'approved-embed', launchMode: 'iframe' } }
+
 export const games: Game[] = [
   hostedGame({
     slug: 'eaglercraft-112',
@@ -265,6 +268,15 @@ export const games: Game[] = [
     secondaryAccent: '#314c87',
     symbol: '✦',
   }),
+
+  externalGame({ slug: 'gn-bowmasters', title: 'Bowmasters', genre: 'Action', description: 'Aiming and physics challenge from the GN-Math catalog.', tags: ['Action', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/0-fix2.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/0.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/0.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: true, multiplayer: false, accent: '#8de7ac', secondaryAccent: '#2f8d58', symbol: '✦' }),
+  externalGame({ slug: 'gn-ovo', title: 'OvO', genre: 'Platformer', description: 'Fast platforming and precision movement from GN-Math.', tags: ['Platformer', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/1-fix2.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/1.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/1.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: true, multiplayer: false, accent: '#a6e5ff', secondaryAccent: '#3b7fa5', symbol: '◎' }),
+  externalGame({ slug: 'gn-ovo-2', title: 'OvO 2', genre: 'Platformer', description: 'A second set of precision platforming levels from GN-Math.', tags: ['Platformer', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/2-fix2.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/2.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/2.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: false, multiplayer: false, accent: '#b4e4ff', secondaryAccent: '#477fa9', symbol: '◎' }),
+  externalGame({ slug: 'gn-jetpack-joyride', title: 'Jetpack Joyride', genre: 'Arcade', description: 'Fly, dodge, and collect in this GN-Math arcade classic.', tags: ['Arcade', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/7-fix3.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/7.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/7.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: true, multiplayer: false, accent: '#ffd27b', secondaryAccent: '#a15b2a', symbol: '➜' }),
+  externalGame({ slug: 'gn-friday-night-funkin', title: 'Friday Night Funkin', genre: 'Music', description: 'Rhythm battles from the GN-Math catalog.', tags: ['Music', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/8-fix2.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/8.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/8.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: true, multiplayer: false, accent: '#ff93cc', secondaryAccent: '#9d3a71', symbol: '♫' }),
+  externalGame({ slug: 'gn-stickman-hook', title: 'Stickman Hook', genre: 'Arcade', description: 'Swing through quick arcade levels from GN-Math.', tags: ['Arcade', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/11-fix2.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/11.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/11.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: false, multiplayer: false, accent: '#ffae75', secondaryAccent: '#9d4e2c', symbol: '↗' }),
+  externalGame({ slug: 'gn-tomb-of-the-mask', title: 'Tomb of the Mask', genre: 'Arcade', description: 'Race through a neon maze in this GN-Math favorite.', tags: ['Arcade', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/109-fix.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/109.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/109.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: false, multiplayer: false, accent: '#72e2cf', secondaryAccent: '#257b7b', symbol: '◈' }),
+  externalGame({ slug: 'gn-moto-x3m', title: 'Moto X3M', genre: 'Racing', description: 'Perform stunts and clear hazards in GN-Math racing levels.', tags: ['Racing', 'GN-Math', 'New'], playUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/96-fix.html', thumbnailUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/96.png', bannerUrl: 'https://cdn.jsdelivr.net/gh/freebuisness/covers@main/96.png', provider: 'GN-Math', licenseUrl: 'https://gn-math.dev/games.html', featured: true, multiplayer: false, accent: '#ff8e65', secondaryAccent: '#a24a2c', symbol: '⚑' }),
 ]
 
 export const categories = ['All', ...Array.from(new Set(games.map((game) => game.genre))).sort(), 'Multiplayer']
